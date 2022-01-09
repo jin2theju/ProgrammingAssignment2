@@ -42,6 +42,13 @@ really a list containing a function to
                  setmean = setmean,
                  getmean = getmean)
     }
+    makeCacheMatrix <- function(x = matrix()) {
+             inv <- NULL
+             set <- function(y) {
+             x <<- y
+             inv <<- NULL
+           }
+           
 
 The following function calculates the mean of the special "vector"
 created with the above function. However, it first checks to see if the
@@ -62,6 +69,18 @@ function.
             m
     }
 
+    cacheSolve <- function(x, ...) {
+        inv <- x$getInverse()
+        if(!is.null(inv)){
+                message("getting cached data")
+                return(inv)
+        }
+        data <- x$get()
+        inv <- solve(data, ...)
+        x$setInverse(inv)
+        inv
+   }
+   
 ### Assignment: Caching the Inverse of a Matrix
 
 Matrix inversion is usually a costly computation and there may be some
